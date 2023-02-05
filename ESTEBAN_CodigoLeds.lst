@@ -1,4 +1,4 @@
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  1
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -16,268 +16,509 @@ Warning[205]: Found directive in column 1. (__CONFIG)
 Warning[205]: Found directive in column 1. (CBLOCK)
                       00005 CBLOCK 0X0C
   0000000C            00006         Modo
-  0000000D            00007         Cont0
-  0000000E            00008         Cont1
-  0000000F            00009         Led
-  00000010            00010         Var0
-  00000011            00011         Var1
+  0000000D            00007         SubModo
+  0000000E            00008         Cont0
+  0000000F            00009         Cont1
+  00000010            00010         Cont2
+  00000011            00011         Cont3
+  00000012            00012         Var0
+  00000013            00013         Var1
+  00000014            00014         Var2
+  00000015            00015         Var3
+  00000016            00016         Var4
 Warning[205]: Found directive in column 1. (ENDC)
-                      00012 ENDC
-                      00013 ;================================VECTOR================================
+                      00017 ENDC
+                      00018 ;================================VECTOR================================
 Warning[205]: Found directive in column 1. (ORG)
-0000                  00014 ORG     00h
-0000   2805           00015         goto Main
-                      00016         
+0000                  00019 ORG     00h
+0000   2805           00020         goto Main
+                      00021         
 Warning[205]: Found directive in column 1. (ORG)
-0004                  00017 ORG 04h
-0004   2866           00018         goto AT_INTERR
-                      00019 
-                      00020 
-                      00021 ;================================MAIN================================
-0005                  00022 Main 
-                      00023         ;Banco 1
-0005   1683           00024         bsf STATUS,5            ;Selecc Banco
+0004                  00022 ORG 04h
+0004   28F4           00023         goto AT_INTERR
+                      00024 
+                      00025 
+                      00026 ;================================MAIN================================
+0005                  00027 Main 
+                      00028         ;Banco 1
+0005   1683           00029         bsf STATUS,5            ;Selecc Banco
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0006   1005           00025         BCF TRISA,0                     ;Conf Puerto Out
+0006   1005           00030         BCF TRISA,0                     ;Conf Puerto Out
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0007   1085           00026         BCF TRISA,1     
+0007   1085           00031         BCF TRISA,1     
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0008   1105           00027         BCF TRISA,2                     
+0008   1105           00032         BCF TRISA,2                     
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0009   1185           00028         BCF TRISA,3
+0009   1185           00033         BCF TRISA,3
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-000A   1006           00029         BCF TRISB,0                     ;Deberia de ser BSF pero el hadwere funciona con BCF
-000B   3007           00030         MOVLW b'00000111'       ;Prescalar de 256 para TM0                              
+000A   1406           00034         BSF TRISB,0                     ;Deberia de ser BSF pero el hadwere funciona con BCF
+000B   3007           00035         MOVLW b'00000111'       ;Prescalar de 256 para TM0                              
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-000C   0081           00031         MOVWF OPTION_REG
-000D   3030           00032         MOVLW b'00110000'               ;Habilitador Interrupciones
-000E   008B           00033         MOVWF INTCON
-                      00034         ;Banco 0
-000F   1283           00035         BCF STATUS,5            ;Selecc Banco
-0010   30F5           00036         MOVLW d'245'            
-0011   0081           00037         MOVWF TMR0
-0012   0185           00038         CLRF PORTA                      ;Apagar leds 
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  2
+000C   0081           00036         MOVWF OPTION_REG
+000D   3030           00037         MOVLW b'00110000'               ;Habilitador Interrupciones
+000E   008B           00038         MOVWF INTCON
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0013   1006           00039         BCF PORTB,0
-0014   3001           00040         MOVLW d'1'
-0015   008D           00041         movwf Cont0
-0016   008E           00042         movwf Cont1
-0017   018F           00043         clrf Led        
-0018   3001           00044         MOVLW d'1'
-0019   008C           00045         movwf Modo
-001A   178B           00046         BSF INTCON,7            ;Habilitar todas las Interrupt
-001B                  00047 LOOP
-001B   281B           00048         GOTO LOOP 
-                      00049 
-                      00050 ;================================INTERRUPT================================
-001C                  00051 Ref_Modo0
-001C   0B8D           00052         DECFSZ Cont0,1
-001D   2826           00053         goto M0_Continue0
-001E   3064           00054         movlW d'100'
-001F   008D           00055         movwf Cont0
-0020   0185           00056         clrf PORTA
-0021   180F           00057         btfsc Led,0
-0022   2825           00058         goto M0_Continue1
-0023   140F           00059         bsf Led,0
-0024   2826           00060         goto M0_Continue0
-Warning[207]: Found label after column 1. (M0_Continue1)
-0025                  00061    M0_Continue1
-0025   100F           00062         bcf Led,0
-Warning[207]: Found label after column 1. (M0_Continue0)
-0026                  00063    M0_Continue0
-0026   0B8E           00064         DECFSZ Cont1,1
-0027   283A           00065         goto _ExtM0
-0028   3014           00066         movlW d'20'
-0029   008E           00067         movwf Cont1
-002A   180F           00068         btfsc Led,0
-002B   2833           00069         goto M0_Continue2
-002C   1805           00070         btfsc PORTA,0
-002D   2831           00071         goto M0_Continue3
-002E   3003           00072         movlw b'00000011'
-002F   0085           00073         movwf PORTA
-0030   283A           00074         goto _ExtM0
-Warning[207]: Found label after column 1. (M0_Continue3)
-0031                  00075    M0_Continue3
-0031   0185           00076         clrf PORTA
-0032   283A           00077         goto _ExtM0
-Warning[207]: Found label after column 1. (M0_Continue2)
-0033                  00078    M0_Continue2
-0033   1905           00079         btfsc PORTA,2
-0034   2838           00080         goto M0_Continue4
-0035   300C           00081         movlw b'00001100'
-0036   0085           00082         movwf PORTA
-0037   283A           00083         goto _ExtM0
-Warning[207]: Found label after column 1. (M0_Continue4)
-0038                  00084    M0_Continue4
-0038   0185           00085         clrf PORTA
-0039   283A           00086         goto _ExtM0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  3
+                      00039         ;Banco 0
+000F   1283           00040         BCF STATUS,5            ;Selecc Banco
+0010   30F5           00041         MOVLW d'245'            
+0011   0081           00042         MOVWF TMR0
+0012   0185           00043         CLRF PORTA                      ;Apagar leds 
+0013   1006           00044         BCF PORTB,0
+0014   3001           00045         MOVLW d'1'
+0015   008E           00046         movwf Cont0
+0016   008F           00047         movwf Cont1
+0017   0090           00048         movwf Cont2
+0018   0091           00049         movwf Cont3
+0019   0192           00050         clrf Var0
+001A   0193           00051         clrf Var1
+001B   0194           00052         clrf Var2
+001C   0195           00053         clrf Var3       
+001D   018D           00054         clrf SubModo
+001E   3002           00055         MOVLW d'2'
+001F   008C           00056         movwf Modo
+0020   178B           00057         BSF INTCON,7            ;Habilitar todas las Interrupt
+0021                  00058 LOOP
+0021   2821           00059         GOTO LOOP 
+                      00060 
+                      00061 ;================================INTERRUPT================================
+0022                  00062 Ref_Modo0
+0022   0B8E           00063         DECFSZ Cont0,1
+0023   282C           00064         goto M0Continue0
+0024   3032           00065         movlW d'50'
+0025   008E           00066         movwf Cont0
+0026   0185           00067         clrf PORTA
+0027   1814           00068         btfsc Var2,0
+0028   282B           00069         goto M0Continue1
+0029   1414           00070         bsf Var2,0
+002A   282C           00071         goto M0Continue0
+Warning[207]: Found label after column 1. (M0Continue1)
+002B                  00072    M0Continue1
+002B   1014           00073         bcf Var2,0
+Warning[207]: Found label after column 1. (M0Continue0)
+002C                  00074    M0Continue0
+002C   0B8F           00075         DECFSZ Cont1,1
+002D   2840           00076         goto ExtM0
+002E   300A           00077         movlW d'10'
+002F   008F           00078         movwf Cont1
+0030   1814           00079         btfsc Var2,0
+0031   2839           00080         goto M0Continue2
+0032   1805           00081         btfsc PORTA,0
+0033   2837           00082         goto M0Continue3
+0034   3003           00083         movlw b'00000011'
+0035   0085           00084         movwf PORTA
+0036   2840           00085         goto ExtM0
+Warning[207]: Found label after column 1. (M0Continue3)
+0037                  00086    M0Continue3
+0037   0185           00087         clrf PORTA
+0038   2840           00088         goto ExtM0
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-Warning[207]: Found label after column 1. (_ExtM0)
-003A                  00087   _ExtM0
-003A   0008           00088         return
-                      00089 
-003B                  00090 Ref_Modo1
-003B   0B8D           00091         DECFSZ Cont0,1
-003C   2847           00092         goto M1_Continue0
-003D   3032           00093         movlW d'50'
-003E   008D           00094         movwf Cont0
-003F   0185           00095         clrf PORTA
-0040   3003           00096         movlw d'3'
-0041   060F           00097         xorwf Led,0
-0042   1903           00098         btfsc STATUS,2
-0043   2846           00099         goto M1_Continue1
+Warning[207]: Found label after column 1. (M0Continue2)
+0039                  00089    M0Continue2
+0039   1905           00090         btfsc PORTA,2
+003A   283E           00091         goto M0Continue4
+003B   300C           00092         movlw b'00001100'
+003C   0085           00093         movwf PORTA
+003D   2840           00094         goto ExtM0
+Warning[207]: Found label after column 1. (M0Continue4)
+003E                  00095    M0Continue4
+003E   0185           00096         clrf PORTA
+003F   2840           00097         goto ExtM0
+Warning[207]: Found label after column 1. (ExtM0)
+0040                  00098   ExtM0
+0040   0008           00099         return
+                      00100 
+0041                  00101 Ref_Modo1_0
+0041   0B8E           00102         DECFSZ Cont0,1
+0042   284D           00103         goto M1_0Continue0
+0043   301E           00104         movlW d'30'
+0044   008E           00105         movwf Cont0
+0045   0185           00106         clrf PORTA
+0046   3003           00107         movlw d'3'
+0047   0614           00108         xorwf Var2,0
+0048   1903           00109         btfsc STATUS,2
+0049   284C           00110         goto M1_0Continue1
 Message[305]: Using default destination of 1 (file).
-0044   0A8F           00100         incf Led
-0045   2847           00101         goto M1_Continue0
-Warning[207]: Found label after column 1. (M1_Continue1)
-0046                  00102    M1_Continue1 
-0046   008F           00103         movwf Led
-Warning[207]: Found label after column 1. (M1_Continue0)
-0047                  00104    M1_Continue0
-0047   0B8E           00105         DECFSZ Cont1,1
-0048   285F           00106         goto _ExtM1
-0049   300A           00107         movlW d'10'
-004A   008E           00108         movwf Cont1     
-004B   080F           00109         movf Led,0
-004C   0090           00110         movwf Var0
+004A   0A94           00111         incf Var2
+004B   284D           00112         goto M1_0Continue0
+Warning[207]: Found label after column 1. (M1_0Continue1)
+004C                  00113    M1_0Continue1        
+004C   0094           00114         movwf Var2
+Warning[207]: Found label after column 1. (M1_0Continue0)
+004D                  00115    M1_0Continue0
+004D   0B8F           00116         DECFSZ Cont1,1
+004E   2865           00117         goto ExtM1_0
+004F   300A           00118         movlW d'10'
+0050   008F           00119         movwf Cont1     
+0051   0814           00120         movf Var2,0
+0052   0092           00121         movwf Var0
 Message[305]: Using default destination of 1 (file).
-004D   0A90           00111         incf Var0       
-004E   3001           00112         movlw 1
-004F   0091           00113         movwf Var1
-Warning[207]: Found label after column 1. (Ciclo)
-0050                  00114    Ciclo
-0050   1003           00115         bcf STATUS,0
-0051   0B90           00116         DECFSZ Var0,1   
-0052   2854           00117         goto Rotar
-0053   2856           00118         goto M1_Continue2
-Warning[207]: Found label after column 1. (Rotar)
-0054                  00119   Rotar
-0054   0D91           00120         RLF Var1,1
-0055   2850           00121         goto Ciclo
-Warning[207]: Found label after column 1. (M1_Continue2)
-0056                  00122   M1_Continue2
-0056   0805           00123         movf PORTA,0
-0057   0611           00124         xorwf Var1,0
-0058   1903           00125         btfsc STATUS,2  
-0059   285D           00126         goto M1_Continue3
-005A   0811           00127         movf Var1,0
-005B   0085           00128         movwf PORTA
-005C   285F           00129         goto _ExtM1
-Warning[207]: Found label after column 1. (M1_Continue3)
-005D                  00130   M1_Continue3  
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  4
+0053   0A92           00122         incf Var0       
+0054   3001           00123         movlw 1
+0055   0093           00124         movwf Var1
+Warning[207]: Found label after column 1. (M1_0Ciclo)
+0056                  00125    M1_0Ciclo
+0056   1003           00126         bcf STATUS,0
+0057   0B92           00127         DECFSZ Var0,1   
+0058   285A           00128         goto M1_0Rotar
+0059   285C           00129         goto M1_0Continue2
+Warning[207]: Found label after column 1. (M1_0Rotar)
+005A                  00130   M1_0Rotar
+005A   0D93           00131         RLF Var1,1
+005B   2856           00132         goto M1_0Ciclo
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-005D   0185           00131         clrf PORTA
-005E   285F           00132         goto _ExtM1
-Warning[207]: Found label after column 1. (_ExtM1)
-005F                  00133   _ExtM1
-005F   0008           00134         return
-0060                  00135 Ref_Modo2
-0060   3003           00136         movlw b'00000011'
-0061   0085           00137         movwf PORTA
-Warning[207]: Found label after column 1. (_ExtM2)
-0062                  00138         _ExtM2
-0062   0008           00139         return
-0063                  00140 Ref_Modo3
-0063   300C           00141         movlw b'00001100'
-0064   0085           00142         movwf PORTA
-Warning[207]: Found label after column 1. (_ExtM3)
-0065                  00143         _ExtM3
-0065   0008           00144         return
-0066                  00145 AT_INTERR
-0066   190B           00146         BTFSC INTCON,T0IF
-0067   2869           00147     goto _T0
-0068   2885           00148         goto _X0
-Warning[207]: Found label after column 1. (_T0)
-0069                  00149   _T0
-0069   30F5           00150         MOVLW d'245'            
-006A   0081           00151         MOVWF TMR0      
-006B   3000           00152         movlw d'0'
-006C   060C           00153         xorwf Modo,0    
-006D   1D03           00154         btfss STATUS,2
-006E   2871           00155         goto T0Continue0
-006F   201C           00156         call Ref_Modo0
-0070   2883           00157         goto _ExtT0
-Warning[207]: Found label after column 1. (T0Continue0)
-0071                  00158   T0Continue0
-0071   3001           00159         movlw d'1'
-0072   060C           00160         xorwf Modo,0
-0073   1D03           00161         btfss STATUS,2
-0074   2877           00162         goto T0Continue1
-0075   203B           00163         call Ref_Modo1
-0076   2883           00164         goto _ExtT0
-Warning[207]: Found label after column 1. (T0Continue1)
-0077                  00165   T0Continue1
-0077   3002           00166         movlw d'2'
-0078   060C           00167         xorwf Modo,0
-0079   1D03           00168         btfss STATUS,2
-007A   287D           00169         goto T0Continue2
-007B   2060           00170         call Ref_Modo2
-007C   2883           00171         goto _ExtT0
-Warning[207]: Found label after column 1. (T0Continue2)
-007D                  00172   T0Continue2
-007D   3003           00173         movlw d'3'
-007E   060C           00174         xorwf Modo,0
-007F   1D03           00175         btfss STATUS,2
-0080   2883           00176         goto _ExtT0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  5
+Warning[207]: Found label after column 1. (M1_0Continue2)
+005C                  00133   M1_0Continue2
+005C   0805           00134         movf PORTA,0
+005D   0613           00135         xorwf Var1,0
+005E   1903           00136         btfsc STATUS,2  
+005F   2863           00137         goto M1_0Continue3
+0060   0813           00138         movf Var1,0
+0061   0085           00139         movwf PORTA
+0062   2865           00140         goto ExtM1_0
+Warning[207]: Found label after column 1. (M1_0Continue3)
+0063                  00141   M1_0Continue3 
+0063   0185           00142         clrf PORTA
+0064   2865           00143         goto ExtM1_0
+Warning[207]: Found label after column 1. (ExtM1_0)
+0065                  00144   ExtM1_0
+0065   0008           00145         return
+                      00146 
+0066                  00147 Ref_Modo1_1
+0066   0B8E           00148         DECFSZ Cont0,1
+0067   2873           00149         goto M1_1Continue0
+0068   301E           00150         movlW d'30'
+0069   008E           00151         movwf Cont0
+006A   0185           00152         clrf PORTA
+006B   3000           00153         movlw d'0'
+006C   0614           00154         xorwf Var2,0
+006D   1903           00155         btfsc STATUS,2
+006E   2871           00156         goto M1_1Continue1
+Message[305]: Using default destination of 1 (file).
+006F   0394           00157         decf Var2
+0070   2873           00158         goto M1_1Continue0
+Warning[207]: Found label after column 1. (M1_1Continue1)
+0071                  00159    M1_1Continue1        
+0071   3003           00160         movlw d'3'
+0072   0094           00161         movwf Var2
+Warning[207]: Found label after column 1. (M1_1Continue0)
+0073                  00162    M1_1Continue0
+0073   0B8F           00163         DECFSZ Cont1,1
+0074   288E           00164         goto ExtM1_1
+0075   300A           00165         movlW d'10'
+0076   008F           00166         movwf Cont1     
+0077   0814           00167         movf Var2,0
+0078   0092           00168         movwf Var0
+0079   0812           00169         movf Var0,0
+007A   3C03           00170         sublw d'3'
+007B   0092           00171         movwf Var0
+Message[305]: Using default destination of 1 (file).
+007C   0A92           00172         incf Var0
+007D   3008           00173         movlw d'8'
+007E   0093           00174         movwf Var1
+Warning[207]: Found label after column 1. (M1_1Ciclo)
+007F                  00175    M1_1Ciclo
+007F   1003           00176         bcf STATUS,0
+0080   0B92           00177         DECFSZ Var0,1   
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0081   2063           00177         call Ref_Modo3
-0082   2883           00178         goto _ExtT0
-                      00179  
-Warning[207]: Found label after column 1. (_ExtT0)
-0083                  00180   _ExtT0
-0083   110B           00181         BCF INTCON,T0IF
-0084   0009           00182         RETFIE
-Warning[207]: Found label after column 1. (_X0)
-0085                  00183   _X0
-                      00184         ;clrf Led
-0085   3003           00185         movlw d'3'
-0086   060C           00186         xorwf Modo,0
-0087   1903           00187         btfsc STATUS,2
-0088   288B           00188         goto  X0Continue0
-Message[305]: Using default destination of 1 (file).
-0089   0A8C           00189         incf Modo
-008A   288C           00190         goto _ExtX0
-Warning[207]: Found label after column 1. (X0Continue0)
-008B                  00191    X0Continue0
-008B   008C           00192         movwf Modo
-Warning[207]: Found label after column 1. (_ExtX0)
-008C                  00193   _ExtX0
-008C   108B           00194         BCF INTCON,INTF
-008D   0009           00195         RETFIE
+0081   2883           00178         goto M1_1Rotar
+0082   2885           00179         goto M1_1Continue2
+Warning[207]: Found label after column 1. (M1_1Rotar)
+0083                  00180   M1_1Rotar
+0083   0C93           00181         RRF Var1,1
+0084   287F           00182         goto M1_1Ciclo
+Warning[207]: Found label after column 1. (M1_1Continue2)
+0085                  00183   M1_1Continue2
+0085   0805           00184         movf PORTA,0
+0086   0613           00185         xorwf Var1,0
+0087   1903           00186         btfsc STATUS,2  
+0088   288C           00187         goto M1_1Continue3
+0089   0813           00188         movf Var1,0
+008A   0085           00189         movwf PORTA
+008B   288E           00190         goto ExtM1_1
+Warning[207]: Found label after column 1. (M1_1Continue3)
+008C                  00191   M1_1Continue3 
+008C   0185           00192         clrf PORTA
+008D   288E           00193         goto ExtM1_1
+Warning[207]: Found label after column 1. (ExtM1_1)
+008E                  00194   ExtM1_1
+008E   0008           00195         return
                       00196 
+008F                  00197 Ref_Modo2
+008F   3000           00198         movlw d'0'
+0090   0614           00199         xorwf Var2,0
+0091   1D03           00200         btfss STATUS,2
+0092   289B           00201         goto M2Continue0
+0093   1405           00202         bsf PORTA,0
+0094   1015           00203         bcf Var3,0
+0095   3001           00204         movlw d'1'
+0096   060E           00205         xorwf Cont0,0
+0097   1903           00206         btfsc STATUS,2
+0098   28A6           00207         goto M2Continue1
+Message[305]: Using default destination of 1 (file).
+0099   0A8F           00208         incf Cont1
+009A   28A6           00209         goto M2Continue1
+009B                  00210 M2Continue0
+009B   3003           00211         movlw d'3'
+009C   0614           00212         xorwf Var2,0
+009D   1D03           00213         btfss STATUS,2
+009E   28A6           00214         goto M2Continue1
+009F   1585           00215         bsf PORTA,3
+00A0   1415           00216         bsf Var3,0
+00A1   3001           00217         movlw d'1'
+00A2   060E           00218         xorwf Cont0,0
+00A3   1903           00219         btfsc STATUS,2
+00A4   28A6           00220         goto M2Continue1
+Message[305]: Using default destination of 1 (file).
+00A5   0A8F           00221         incf Cont1
+Warning[207]: Found label after column 1. (M2Continue1)
+00A6                  00222   M2Continue1
+00A6   1815           00223         btfsc Var3,0
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00A7   28A9           00224         goto M2Continue2
+00A8   2841           00225         goto Ref_Modo1_0
+Warning[207]: Found label after column 1. (M2Continue2)
+00A9                  00226   M2Continue2
+00A9   2866           00227         goto Ref_Modo1_1
+                      00228 
+                      00229 
+00AA                  00230 Ref_Modo3
+00AA   0B8E           00231         DECFSZ Cont0,1
+00AB   28B5           00232         goto ExtM3
+00AC   300A           00233         movlW d'10'
+00AD   008E           00234         movwf Cont0
+00AE   1805           00235         btfsc PORTA,0
+00AF   28B3           00236         goto M3Continue0
+00B0   300F           00237         movlw b'00001111'
+00B1   0085           00238         movwf PORTA
+00B2   28B5           00239         goto ExtM3
+Warning[207]: Found label after column 1. (M3Continue0)
+00B3                  00240   M3Continue0   
+00B3   0185           00241         clrf PORTA
+00B4   28B5           00242         goto ExtM3
+Warning[207]: Found label after column 1. (ExtM3)
+00B5                  00243   ExtM3
+00B5   0008           00244         return
+                      00245 
+                      00246 
+                      00247 
+00B6                  00248 Ref_Modo4
+00B6   0B8E           00249         DECFSZ Cont0,1
+00B7   28D2           00250         goto ExtM4
+00B8   1812           00251         btfsc Var0,0
+00B9   28C3           00252         goto M4Continue1
+Message[305]: Using default destination of 1 (file).
+00BA   0A93           00253         incf Var1               
+00BB   0813           00254         movf Var1,0
+00BC   008E           00255         movwf Cont0
+00BD   301E           00256         movlw d'30'
+00BE   0613           00257         xorwf Var1,0    
+00BF   1D03           00258         btfss STATUS,2
+00C0   28CB           00259         goto M4Continue0
+00C1   1412           00260         bsf Var0,0
+00C2   28CB           00261         goto M4Continue0
+Warning[207]: Found label after column 1. (M4Continue1)
+00C3                  00262   M4Continue1
+Message[305]: Using default destination of 1 (file).
+00C3   0393           00263         decf Var1
+00C4   0813           00264         movf Var1,0             
+00C5   008E           00265         movwf Cont0
+00C6   3001           00266         movlw d'1'
+00C7   0613           00267         xorwf Var1,0    
+00C8   1D03           00268         btfss STATUS,2
+00C9   28CB           00269         goto M4Continue0
+00CA   1012           00270         bcf Var0,0
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+Warning[207]: Found label after column 1. (M4Continue0)
+00CB                  00271   M4Continue0
+00CB   1805           00272         btfsc PORTA,0
+00CC   28D0           00273         goto M4Continue2
+00CD   300F           00274         movlw b'00001111'
+00CE   0085           00275         movwf PORTA
+00CF   28D2           00276         goto ExtM4
+Warning[207]: Found label after column 1. (M4Continue2)
+00D0                  00277   M4Continue2
+00D0   0185           00278         clrf PORTA
+00D1   28D2           00279         goto ExtM4
+Warning[207]: Found label after column 1. (ExtM4)
+00D2                  00280    ExtM4
+00D2   0008           00281         return
+                      00282 
+00D3                  00283 Ref_Modo5
+00D3   0B90           00284         DECFSZ Cont2,1
+00D4   28E4           00285         goto M5Continue0
+00D5   3064           00286         movlW d'100'    
+00D6   0090           00287         movwf Cont2
+00D7   0B91           00288         DECFSZ Cont3,1
+00D8   28E4           00289         goto M5Continue0
+00D9   3003           00290         movlW d'3'      
+00DA   0091           00291         movwf Cont3
+00DB   0194           00292         clrf Var2
+00DC   0185           00293         clrf PORTA
+00DD   3003           00294         movlw d'3'
+00DE   060D           00295         xorwf SubModo,0 
+00DF   1D03           00296         btfss STATUS,2
+00E0   28E3           00297         goto M5Continue1
+00E1   008D           00298         movwf SubModo
+00E2   28E4           00299         goto M5Continue0        
+Warning[207]: Found label after column 1. (M5Continue1)
+00E3                  00300   M5Continue1
+Message[305]: Using default destination of 1 (file).
+00E3   0A8D           00301         incf SubModo
+Warning[207]: Found label after column 1. (M5Continue0)
+00E4                  00302   M5Continue0 
+00E4   3000           00303         movlw d'0'
+00E5   060D           00304         xorwf SubModo,0 
+00E6   1D03           00305         btfss STATUS,2
+00E7   28E9           00306         goto M5Continue2
+00E8   2822           00307         goto Ref_Modo0  
+Warning[207]: Found label after column 1. (M5Continue2)
+00E9                  00308   M5Continue2
+00E9   3001           00309         movlw d'1'
+00EA   060D           00310         xorwf SubModo,0 
+00EB   1D03           00311         btfss STATUS,2
+00EC   28EE           00312         goto M5Continue3
+00ED   2841           00313         goto Ref_Modo1_0        
+Warning[207]: Found label after column 1. (M5Continue3)
+00EE                  00314   M5Continue3
+00EE   3002           00315         movlw d'2'
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00EF   060D           00316         xorwf SubModo,0 
+00F0   1D03           00317         btfss STATUS,2
+00F1   28F3           00318         goto M5Continue4
+00F2   288F           00319         goto Ref_Modo2  
+Warning[207]: Found label after column 1. (M5Continue4)
+00F3                  00320   M5Continue4
+00F3   2866           00321         goto Ref_Modo1_1
+                      00322 
+00F4                  00323 AT_INTERR
+00F4   190B           00324         BTFSC INTCON,T0IF
+00F5   28F7           00325     goto _T0
+00F6   2915           00326         goto _X0
+Warning[207]: Found label after column 1. (_T0)
+00F7                  00327   _T0
+00F7   30EB           00328         MOVLW d'235'            
+00F8   0081           00329         MOVWF TMR0      
+00F9   3000           00330         movlw d'0'
+00FA   060C           00331         xorwf Modo,0    
+00FB   1D03           00332         btfss STATUS,2
+00FC   28FF           00333         goto T0Continue0
+00FD   2022           00334         call Ref_Modo0
+00FE   2913           00335         goto ExtT0
+Warning[207]: Found label after column 1. (T0Continue0)
+00FF                  00336   T0Continue0
+00FF   3001           00337         movlw d'1'
+0100   060C           00338         xorwf Modo,0
+0101   1D03           00339         btfss STATUS,2
+0102   2905           00340         goto T0Continue1
+0103   2041           00341         call Ref_Modo1_0
+0104   2913           00342         goto ExtT0
+Warning[207]: Found label after column 1. (T0Continue1)
+0105                  00343   T0Continue1
+0105   3002           00344         movlw d'2'
+0106   060C           00345         xorwf Modo,0
+0107   1D03           00346         btfss STATUS,2
+0108   290B           00347         goto T0Continue2
+0109   208F           00348         call Ref_Modo2
+010A   2913           00349         goto ExtT0
+Warning[207]: Found label after column 1. (T0Continue2)
+010B                  00350   T0Continue2
+010B   3003           00351         movlw d'3'
+010C   060C           00352         xorwf Modo,0
+010D   1D03           00353         btfss STATUS,2
+010E   2911           00354         goto T0Continue3
+010F   20AA           00355         call Ref_Modo3
+0110   2913           00356         goto ExtT0
+Warning[207]: Found label after column 1. (T0Continue3)
+0111                  00357   T0Continue3
+0111   20B6           00358         call Ref_Modo4
+0112   2913           00359         goto ExtT0
+                      00360  
+Warning[207]: Found label after column 1. (ExtT0)
+0113                  00361   ExtT0
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0113   110B           00362         BCF INTCON,T0IF
+0114   0009           00363         RETFIE
+Warning[207]: Found label after column 1. (_X0)
+0115                  00364   _X0
+0115   0192           00365         clrf Var0
+0116   0193           00366         clrf Var1
+0117   0194           00367         clrf Var2
+0118   0195           00368         clrf Var3
+0119   018D           00369         clrf SubModo
+011A   3001           00370         movlw d'1'
+011B   008E           00371         movwf Cont0
+011C   008F           00372         movwf Cont1
+011D   0090           00373         movwf Cont2
+011E   0091           00374         movwf Cont3
+011F   3004           00375         movlw d'4'
+0120   060C           00376         xorwf Modo,0
+0121   1903           00377         btfsc STATUS,2
+0122   2925           00378         goto  X0Continue0
+Message[305]: Using default destination of 1 (file).
+0123   0A8C           00379         incf Modo
+0124   2926           00380         goto ExtX0
+Warning[207]: Found label after column 1. (X0Continue0)
+0125                  00381    X0Continue0
+0125   008C           00382         movwf Modo
+Warning[207]: Found label after column 1. (ExtX0)
+0126                  00383   ExtX0
+0126   108B           00384         BCF INTCON,INTF
+0127   0009           00385         RETFIE
+                      00386 
 Warning[205]: Found directive in column 1. (end)
-                      00197 end
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  6
+                      00387 end
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 10
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
-AT_INTERR                         00000066
+AT_INTERR                         000000F4
 C                                 00000000
-Ciclo                             00000050
-Cont0                             0000000D
-Cont1                             0000000E
+Cont0                             0000000E
+Cont1                             0000000F
+Cont2                             00000010
+Cont3                             00000011
 DC                                00000001
 EEADR                             00000009
 EECON1                            00000088
@@ -285,6 +526,13 @@ EECON2                            00000089
 EEDATA                            00000008
 EEIE                              00000006
 EEIF                              00000004
+ExtM0                             00000040
+ExtM1_0                           00000065
+ExtM1_1                           0000008E
+ExtM3                             000000B5
+ExtM4                             000000D2
+ExtT0                             00000113
+ExtX0                             00000126
 F                                 00000001
 FSR                               00000004
 GIE                               00000007
@@ -294,17 +542,42 @@ INTE                              00000004
 INTEDG                            00000006
 INTF                              00000001
 IRP                               00000007
-LOOP                              0000001B
-Led                               0000000F
-M0_Continue0                      00000026
-M0_Continue1                      00000025
-M0_Continue2                      00000033
-M0_Continue3                      00000031
-M0_Continue4                      00000038
-M1_Continue0                      00000047
-M1_Continue1                      00000046
-M1_Continue2                      00000056
-M1_Continue3                      0000005D
+LOOP                              00000021
+M0Continue0                       0000002C
+M0Continue1                       0000002B
+M0Continue2                       00000039
+M0Continue3                       00000037
+M0Continue4                       0000003E
+M1_0Ciclo                         00000056
+M1_0Continue0                     0000004D
+M1_0Continue1                     0000004C
+M1_0Continue2                     0000005C
+M1_0Continue3                     00000063
+M1_0Rotar                         0000005A
+M1_1Ciclo                         0000007F
+M1_1Continue0                     00000073
+M1_1Continue1                     00000071
+M1_1Continue2                     00000085
+M1_1Continue3                     0000008C
+M1_1Rotar                         00000083
+M2Continue0                       0000009B
+M2Continue1                       000000A6
+M2Continue2                       000000A9
+M3Continue0                       000000B3
+M4Continue0                       000000CB
+M4Continue1                       000000C3
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+M4Continue2                       000000D0
+M5Continue0                       000000E4
+M5Continue1                       000000E3
+M5Continue2                       000000E9
+M5Continue3                       000000EE
+M5Continue4                       000000F3
 Main                              00000005
 Modo                              0000000C
 NOT_PD                            00000003
@@ -324,74 +597,75 @@ RBIF                              00000000
 RD                                00000000
 RP0                               00000005
 RP1                               00000006
-Ref_Modo0                         0000001C
-Ref_Modo1                         0000003B
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  7
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
-Ref_Modo2                         00000060
-Ref_Modo3                         00000063
-Rotar                             00000054
+Ref_Modo0                         00000022
+Ref_Modo1_0                       00000041
+Ref_Modo1_1                       00000066
+Ref_Modo2                         0000008F
+Ref_Modo3                         000000AA
+Ref_Modo4                         000000B6
+Ref_Modo5                         000000D3
 STATUS                            00000003
+SubModo                           0000000D
 T0CS                              00000005
-T0Continue0                       00000071
-T0Continue1                       00000077
-T0Continue2                       0000007D
+T0Continue0                       000000FF
+T0Continue1                       00000105
+T0Continue2                       0000010B
+T0Continue3                       00000111
 T0IE                              00000005
 T0IF                              00000002
 T0SE                              00000004
 TMR0                              00000001
 TRISA                             00000085
 TRISB                             00000086
-Var0                              00000010
-Var1                              00000011
+Var0                              00000012
+Var1                              00000013
+Var2                              00000014
+Var3                              00000015
+Var4                              00000016
 W                                 00000000
 WR                                00000001
 WREN                              00000002
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 12
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 WRERR                             00000003
-X0Continue0                       0000008B
+X0Continue0                       00000125
 Z                                 00000002
 _CP_OFF                           00003FFF
 _CP_ON                            0000000F
-_ExtM0                            0000003A
-_ExtM1                            0000005F
-_ExtM2                            00000062
-_ExtM3                            00000065
-_ExtT0                            00000083
-_ExtX0                            0000008C
 _HS_OSC                           00003FFE
 _LP_OSC                           00003FFC
 _PWRTE_OFF                        00003FFF
 _PWRTE_ON                         00003FF7
 _RC_OSC                           00003FFF
-_T0                               00000069
+_T0                               000000F7
 _WDT_OFF                          00003FFB
 _WDT_ON                           00003FFF
-_X0                               00000085
+_X0                               00000115
 _XT_OSC                           00003FFD
 __16F84A                          00000001
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-3-2023  2:28:11         PAGE  8
 
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
-
 0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
 0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
-0080 : XXXXXXXXXXXXXX-- ---------------- ---------------- ----------------
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXX-------- ----------------
 2000 : -------X-------- ---------------- ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Words Used:   139
-Program Memory Words Free:   885
+Program Memory Words Used:   293
+Program Memory Words Free:   731
 
 
 Errors   :     0
-Warnings :    30 reported,     0 suppressed
-Messages :     9 reported,     0 suppressed
+Warnings :    49 reported,     0 suppressed
+Messages :    16 reported,     0 suppressed
 
 
