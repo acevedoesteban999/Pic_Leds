@@ -52,13 +52,16 @@ Main
 	clrf Var2
 	clrf Var3	
 	clrf SubModo
-	MOVLW d'2'
+	MOVLW d'0'
 	movwf Modo
 	BSF INTCON,7		;Habilitar todas las Interrupt
 LOOP
 	GOTO LOOP 
+;================================================================================================
+;										SUBRUTINAS
+;================================================================================================
 
-;================================INTERRUPT================================
+;========================MODO0_1========================
 Ref_Modo0
 	DECFSZ Cont0,1
 	goto M0Continue0
@@ -97,7 +100,7 @@ Ref_Modo0
 	goto ExtM0
   ExtM0
 	return
-
+;========================MODO0_1========================
 Ref_Modo1_0
 	DECFSZ Cont0,1
 	goto M1_0Continue0
@@ -143,7 +146,7 @@ Ref_Modo1_0
 	goto ExtM1_0
   ExtM1_0
 	return
-
+;========================MODO1_1========================
 Ref_Modo1_1
 	DECFSZ Cont0,1
 	goto M1_1Continue0
@@ -193,7 +196,7 @@ Ref_Modo1_1
 	goto ExtM1_1
   ExtM1_1
 	return
-
+;========================MODO2========================
 Ref_Modo2
 	movlw d'0'
 	xorwf Var2,0
@@ -226,7 +229,7 @@ M2Continue0
   M2Continue2
 	goto Ref_Modo1_1
 
-
+;========================MODO3========================
 Ref_Modo3
 	DECFSZ Cont0,1
 	goto ExtM3
@@ -244,7 +247,7 @@ Ref_Modo3
 	return
 
 
-
+;========================MODO4========================
 Ref_Modo4
 	DECFSZ Cont0,1
 	goto ExtM4
@@ -253,7 +256,7 @@ Ref_Modo4
 	incf Var1		
 	movf Var1,0
 	movwf Cont0
-	movlw d'30'
+	movlw d'33'
 	xorwf Var1,0	
 	btfss STATUS,2
 	goto M4Continue0
@@ -279,7 +282,7 @@ Ref_Modo4
 	goto ExtM4
    ExtM4
 	return
-
+;========================MODO5========================
 Ref_Modo5
 	DECFSZ Cont2,1
 	goto M5Continue0
@@ -316,14 +319,17 @@ Ref_Modo5
 	xorwf SubModo,0	
 	btfss STATUS,2
 	goto M5Continue4
-	goto Ref_Modo2	
+	goto Ref_Modo3	
   M5Continue4
 	goto Ref_Modo1_1
-
+;================================================================================================
+;										INTERRUPCIONES
+;================================================================================================
 AT_INTERR
 	BTFSC INTCON,T0IF
     goto _T0
 	goto _X0
+;========================TIMER========================
   _T0
 	MOVLW d'235'		
 	MOVWF TMR0	
@@ -355,9 +361,16 @@ AT_INTERR
 	call Ref_Modo3
 	goto ExtT0
   T0Continue3
+	movlw d'4'
+	xorwf Modo,0
+	btfss STATUS,2
+	goto T0Continue4
 	call Ref_Modo4
 	goto ExtT0
- 
+  T0Continue4
+	call Ref_Modo5
+	goto ExtT0
+ ;========================EXTERNA========================
   ExtT0
 	BCF INTCON,T0IF
 	RETFIE

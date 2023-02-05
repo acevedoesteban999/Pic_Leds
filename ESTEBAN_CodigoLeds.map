@@ -1,12 +1,12 @@
 MPLINK 4.37, Linker
-Linker Map File - Created Sun Feb 05 10:50:22 2023
+Linker Map File - Created Sun Feb 05 11:44:44 2023
 
                                  Section Info
                   Section       Type    Address   Location Size(Bytes)
                 ---------  ---------  ---------  ---------  ---------
                    .org_0       code   0x000000    program   0x000000
                    .org_1       code   0x000000    program   0x000002
-                   .org_2       code   0x000004    program   0x000248
+                   .org_2       code   0x000004    program   0x000254
 .config_2007_ESTEBAN_CODIGOLEDS.O       code   0x002007    program   0x000002
 
 
@@ -15,9 +15,9 @@ Linker Map File - Created Sun Feb 05 10:50:22 2023
                                Start         End      
                            ---------   ---------      
                             0x000000    0x000000      
-                            0x000004    0x000127      
+                            0x000004    0x00012d      
                             0x002007    0x002007      
-            294 out of 1093 program addresses used, program memory utilization is 26%
+            300 out of 1093 program addresses used, program memory utilization is 27%
 
 
 
@@ -30,8 +30,8 @@ Linker Map File - Created Sun Feb 05 10:50:22 2023
                   ExtM1_1   0x00008e    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
                     ExtM3   0x0000b5    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
                     ExtM4   0x0000d2    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                    ExtT0   0x000113    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                    ExtX0   0x000126    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                    ExtT0   0x000119    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                    ExtX0   0x00012c    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
                      LOOP   0x000021    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               M0Continue0   0x00002c    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               M0Continue1   0x00002b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
@@ -74,9 +74,10 @@ Linker Map File - Created Sun Feb 05 10:50:22 2023
               T0Continue1   0x000105    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               T0Continue2   0x00010b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               T0Continue3   0x000111    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-              X0Continue0   0x000125    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+              T0Continue4   0x000117    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+              X0Continue0   0x00012b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
                       _T0   0x0000f7    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                      _X0   0x000115    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                      _X0   0x00011b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
 
 
 
@@ -132,9 +133,10 @@ Linker Map File - Created Sun Feb 05 10:50:22 2023
               T0Continue1   0x000105    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               T0Continue2   0x00010b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
               T0Continue3   0x000111    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                    ExtT0   0x000113    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                      _X0   0x000115    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-              X0Continue0   0x000125    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
-                    ExtX0   0x000126    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+              T0Continue4   0x000117    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                    ExtT0   0x000119    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                      _X0   0x00011b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+              X0Continue0   0x00012b    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
+                    ExtX0   0x00012c    program     static D:\2022\grabador de PIC\2022\progrma Secuencias\ver 1\Esteban_Codigo\ESTEBAN_CodigoLeds.asm
 
 
