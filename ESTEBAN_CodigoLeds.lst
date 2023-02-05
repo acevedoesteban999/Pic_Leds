@@ -1,4 +1,4 @@
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  1
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
 000C   0081           00036         MOVWF OPTION_REG
 000D   3030           00037         MOVLW b'00110000'               ;Habilitador Interrupciones
 000E   008B           00038         MOVWF INTCON
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  2
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -116,7 +116,7 @@ Warning[207]: Found label after column 1. (M0Continue3)
 0037                  00086    M0Continue3
 0037   0185           00087         clrf PORTA
 0038   2840           00088         goto ExtM0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  3
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -175,7 +175,7 @@ Warning[207]: Found label after column 1. (M1_0Rotar)
 005A                  00130   M1_0Rotar
 005A   0D93           00131         RLF Var1,1
 005B   2856           00132         goto M1_0Ciclo
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  4
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  4
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -234,7 +234,7 @@ Warning[207]: Found label after column 1. (M1_1Ciclo)
 007F                  00175    M1_1Ciclo
 007F   1003           00176         bcf STATUS,0
 0080   0B92           00177         DECFSZ Var0,1   
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  5
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  5
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -293,7 +293,7 @@ Message[305]: Using default destination of 1 (file).
 Warning[207]: Found label after column 1. (M2Continue1)
 00A6                  00222   M2Continue1
 00A6   1815           00223         btfsc Var3,0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  6
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  6
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -352,7 +352,7 @@ Message[305]: Using default destination of 1 (file).
 00C8   1D03           00268         btfss STATUS,2
 00C9   28CB           00269         goto M4Continue0
 00CA   1012           00270         bcf Var0,0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  7
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  7
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -411,7 +411,7 @@ Warning[207]: Found label after column 1. (M5Continue2)
 Warning[207]: Found label after column 1. (M5Continue3)
 00EE                  00314   M5Continue3
 00EE   3002           00315         movlw d'2'
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  8
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  8
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -470,7 +470,7 @@ Warning[207]: Found label after column 1. (T0Continue3)
                       00360  
 Warning[207]: Found label after column 1. (ExtT0)
 0113                  00361   ExtT0
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE  9
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE  9
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -490,7 +490,7 @@ Warning[207]: Found label after column 1. (_X0)
 011C   008F           00372         movwf Cont1
 011D   0090           00373         movwf Cont2
 011E   0091           00374         movwf Cont3
-011F   3004           00375         movlw d'4'
+011F   3005           00375         movlw d'5'
 0120   060C           00376         xorwf Modo,0
 0121   1903           00377         btfsc STATUS,2
 0122   2925           00378         goto  X0Continue0
@@ -507,7 +507,7 @@ Warning[207]: Found label after column 1. (ExtX0)
                       00386 
 Warning[205]: Found directive in column 1. (end)
                       00387 end
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 10
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE 10
 
 
 SYMBOL TABLE
@@ -566,7 +566,7 @@ M2Continue2                       000000A9
 M3Continue0                       000000B3
 M4Continue0                       000000CB
 M4Continue1                       000000C3
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 11
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE 11
 
 
 SYMBOL TABLE
@@ -625,7 +625,7 @@ Var4                              00000016
 W                                 00000000
 WR                                00000001
 WREN                              00000002
-MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  1:24:15         PAGE 12
+MPASM  5.37            ESTEBAN_CODIGOLEDS.ASM   2-5-2023  10:50:20         PAGE 12
 
 
 SYMBOL TABLE

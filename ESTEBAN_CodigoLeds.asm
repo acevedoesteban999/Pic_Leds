@@ -372,7 +372,7 @@ AT_INTERR
 	movwf Cont1
 	movwf Cont2
 	movwf Cont3
-	movlw d'4'
+	movlw d'5'
 	xorwf Modo,0
 	btfsc STATUS,2
 	goto  X0Continue0
